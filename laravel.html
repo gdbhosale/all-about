@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<meta name="description" content="The PHP Framework For Web Artisans">
-	<meta name="keywords" content="Laravel">
+	<meta name="description" content="Short compressed Guide / Cookbook for Laravel Framework. Concern is to provide all about Laravel on one page.">
+	<meta name="keywords" content="Laravel, Laravel Cookbook, Laravel Cheetsheet, Laravel Documentation">
 	<meta name="author" content="Ganesh Bhosale">
-	<title> All about Laravel &middot; Dwij IT Solutions </title>
+	<title> All about Laravel - Compressed Guide / Cheetsheet &middot; Dwij IT Solutions </title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="data:text/css;charset=utf-8," data-href="css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
 	<link href="css/docs.min.css" rel="stylesheet">
@@ -51,7 +51,7 @@
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
 			<h1>Laravel</h1>
-			<p>The PHP Framework For Web Artisans</p>
+			<p>Compressed Guide / Cheetsheet</p>
 		</div>
 	</div>
 	<div class="container bs-docs-container">
@@ -61,24 +61,24 @@
 					<h1 id="getting-started" class="page-header">Getting Started</h1>
 					<h2 id="installation">Installation</h2>
 					
-					<b class="margin-bottom-5px">Install Composer:</b>
+					<b class="mb-5">Install Composer:</b>
 					<pre><code>sudo apt-get update
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer</code></pre>
 					
-					<b class="margin-bottom-5px">Install Laravel Installer for Composer:</b>
+					<b class="mb-5">Install Laravel Installer for Composer:</b>
 					<pre><code>composer global require "laravel/installer"
 export PATH="~/.composer/vendor/bin:$PATH"
 # OR for Mac OSX
 sudo nano /etc/paths
 /Users/me/.composer/vendor/bin</code></pre>
 					
-					<b class="margin-bottom-5px">Create a Laravel Project with latest version (dist):</b>
+					<b class="mb-5">Create a Laravel Project with latest version (dist):</b>
 					<pre><code>composer create-project --prefer-dist laravel/laravel website1</code></pre>
 					OR<br>
-					<b class="margin-bottom-5px">Create a Laravel Project with latest stable version (Fast Method):</b>
+					<b class="mb-5">Create a Laravel Project with latest stable version (Fast Method):</b>
 					<pre><code>laravel new website1</code></pre>
 					
-					<b class="margin-bottom-5px">Make directories writable:</b>
+					<b class="mb-5">Make directories writable:</b>
 					<pre><code>cd website1
 sudo chmod -R 777 storage/</code></pre>
 					
@@ -91,7 +91,7 @@ php artisan key:generate</code></pre>
 						<p>Use last command if it gives error like: <code>This gives error: No supported encrypter found. The cipher and / or key length are invalid.</code></p>
 					</div>
 					
-					<b class="margin-bottom-5px">Other Useful Commands:</b>
+					<b class="mb-5">Other Useful Commands:</b>
 					<p>Check Laravel version</p>
 					<pre><code>php artisan --version</code></pre>
 					<p>Check Laravel Installer version</p>
@@ -99,11 +99,11 @@ php artisan key:generate</code></pre>
 					
 					<h2 id="artisan-commands">Artisan Commands</h2>
 					<p>Artisan is command-line interface included in Laravel from Symfony Console component.</p>
-					<b class="margin-bottom-5px">List of all Artisan commands:</b>
+					<b class="mb-5">List of all Artisan commands:</b>
 					<pre><code>php artisan list</code></pre>
-					<b class="margin-bottom-5px">List of all Artisan commands under make section:</b>
+					<b class="mb-5">List of all Artisan commands under make section:</b>
 					<pre><code>php artisan list <span class="s1">make</span></code></pre>
-					<b class="margin-bottom-5px">Help regarding Artisan commands:</b>
+					<b class="mb-5">Help regarding Artisan commands:</b>
 					<pre><code>php artisan help <span class="s1">make:auth</span></code></pre>
 					<h3>Artisan Make Commands</h3>
 					<div class="table-responsive">
@@ -134,22 +134,22 @@ php artisan key:generate</code></pre>
 								<tr>
 									<td><code>make:event</code></td>
 									<td>Create a new event class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:job</code></td>
 									<td>Create a new job class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:listener</code></td>
 									<td>Create a new event listener class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:middleware</code></td>
 									<td>Create a new middleware class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:migration</code></td>
@@ -164,12 +164,12 @@ php artisan key:generate</code></pre>
 								<tr>
 									<td><code>make:policy</code></td>
 									<td>Create a new policy class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:provider</code></td>
 									<td>Create a new service provider class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:request</code></td>
@@ -179,12 +179,12 @@ php artisan key:generate</code></pre>
 								<tr>
 									<td><code>make:seeder</code></td>
 									<td>Create a new seeder class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 								<tr>
 									<td><code>make:test</code></td>
 									<td>Create a new test class</td>
-									<td><code></code></td>
+									<td><pre><code></code></pre></td>
 								</tr>
 							</tbody>
 						</table>
@@ -294,6 +294,57 @@ php artisan key:generate</code></pre>
 					#TODO: Add more commands here after testing
 					
 					<h1 id="blade" class="page-header">Blade Template Engine</h1>
+					<h2 id="blade-templating">Templating</h2>
+					<b class="mb-5">Why Blade ?</b>
+					<ul>
+						<li>Template Inheritance</li>
+						<li>Sections</li>
+						<li>Compiled Layouts for performance</li>
+						<li>Reduce code</li>
+					</ul>
+					<h4>Defining Layout <small>resources/views/layouts/master.blade.php</small></h4>
+					
+					<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span></span>
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span></span>
+        <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span></span>App Name <span class="token operator">-</span> @<span class="token keyword">yield</span><span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">)</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span></span>
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span></span>
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span></span>
+        @<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
+            This is the master sidebar<span class="token punctuation">.</span>
+        @show
+
+        <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span></span>
+            @<span class="token keyword">yield</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
+        <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></span>
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span></span>
+<span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span></span></code></pre>
+					</figure>
+					
+					<h4>Extending A Layout <small>resources/views/child.blade.php</small></h4>
+					<figure class="highlight"><pre><code>@<span class="token keyword">extends</span><span class="token punctuation">(</span><span class="token string">'layouts.master'</span><span class="token punctuation">)</span>
+
+@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'Page Title'</span><span class="token punctuation">)</span>
+
+@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
+    @<span class="token keyword">parent</span>
+
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span></span>This is appended to the master sidebar<span class="token punctuation">.</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></span>
+@endsection
+
+@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
+    <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span></span>This is my body content<span class="token punctuation">.</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></span>
+@endsection</code></pre>
+					</figure>
+					
+					<h4>Load view using routes</h4>
+					<pre><code>Route::get('blade', function () {
+    return view('child');
+});</code></pre>
+					<b class="mb-5">Passing data in view</b>
+					<pre><code>return view('child', <span class="s1">['name' => 'Virat']</span>);</code></pre>
+					
+					
+					
 					<h2 id="blade-templating-commands">Templating Commands</h2>
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped js-options-table">
@@ -307,45 +358,225 @@ php artisan key:generate</code></pre>
 							<tbody>
 								<tr>
 									<td><code>{{ $var }}</code></td>
-									<td>Echo content</td>
-									<td><code></code></td>
+									<td>Echo content. Also prevents XSS attacks</td>
+									<td><pre><code>{{ $user->id }}</code></pre></td>
 								</tr>
 								<tr>
 									<td><code>{{ $var or 'default' }}</code></td>
 									<td>Echo content with a default value</td>
-									<td><code></code></td>
+									<td><pre><code>{{ $name or 'John Doe' }}</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@{{ var }}</code></td>
+									<td>Echo content. Bypass JavaScript frameworks</td>
+									<td><pre><code>@{{ name }}</code></pre></td>
 								</tr>
 								<tr>
 									<td><code>{{{ $var }}}</code></td>
 									<td>Echo escaped content</td>
-									<td><code></code></td>
+									<td></td>
 								</tr>
 								<tr>
 									<td><code>{{-- Comment --}}</code></td>
 									<td>A Blade comment</td>
-									<td><code></code></td>
+									<td></td>
 								</tr>
 								<tr>
 									<td><code>@extends('layout')</code></td>
 									<td>Extends a template with a layout</td>
-									<td><code></code></td>
+									<td><pre><code>@extends('layouts.master')</code></pre></td>
 								</tr>
 								<tr>
 									<td><code>@if(condition)</code></td>
 									<td>Starts an if block</td>
-									<td><code></code></td>
+									<td rowspan="4"><pre class="mw-250"><code>@if (count($records) === 1)
+    I have one record!
+@elseif (count($records) > 1)
+    I have multiple records!
+@else
+    I don't have any records!
+@endif</code></pre></td>
 								</tr>
-								
-								<!--
 								<tr>
-									<td><code></code></td>
-									<td></td>
-									<td><code></code></td>
+									<td><code>@else</code></td>
+									<td>Starts an else block</td>
 								</tr>
-								-->
+								<tr>
+									<td><code>@elseif(condition)</code></td>
+									<td>Start a elseif block</td>
+								</tr>
+								<tr>
+									<td><code>@endif</code></td>
+									<td>Ends a if block</td>
+								</tr>
+								<tr>
+									<td><code>@foreach($list as $key => $val)</code></td>
+									<td>Starts a foreach block</td>
+									<td rowspan="2"><pre><code>@foreach ($users as $user)
+    &lt;p&gt;{{ $user->name }}&lt;/p&gt;
+@endforeach</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@endforeach</code></td>
+									<td>Ends a foreach block</td>
+								</tr>
+								<tr>
+									<td><code>@for($i = 0; $i < 10; $i++)</code></td>
+									<td>Starts a for block</td>
+									<td rowspan="2"><pre><code>@for ($i = 0; $i < 10; $i++)
+    i = {{ $i }}
+@endfor</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@endfor</code></td>
+									<td>Ends a for block</td>
+								</tr>
+								<tr>
+									<td><code>@while(condition)</code></td>
+									<td>Starts a while block</td>
+									<td rowspan="2"><pre><code>@while (true)
+    &lt;p&gt;looping forever.&lt;/p&gt;
+@endwhile</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@endwhile</code></td>
+									<td>Ends a while block</td>
+								</tr>
+								<tr>
+									<td><code>@unless(condition)</code></td>
+									<td>Starts an unless block</td>
+									<td rowspan="2"><pre><code>@unless (Auth::check())
+    You are not signed in.
+@endunless</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@endunless</code></td>
+									<td>Ends an unless block</td>
+								</tr>
+								<tr>
+									<td><code>@forelse($list as $key => $val)</code></td>
+									<td>Starts an unless block</td>
+									<td rowspan="3"><pre><code><span class="s1">@forelse</span> ($users as $user)
+    &lt;li&gt;{{ $user->name }}&lt;/li&gt;
+<span class="s1">@empty</span>
+    &lt;li&gt;No users&lt;/li&gt;
+<span class="s1">@endforelse</span></code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@empty</code></td>
+									<td>If empty the do this</td>
+								</tr>
+								<tr>
+									<td><code>@endforelse</code></td>
+									<td>End the forelse Block</td>
+								</tr>
+								<tr>
+									<td><code>@break</code></td>
+									<td>Break out of for loop</td>
+									<td rowspan="2"><pre><code>@foreach ($users as $user)
+    @continue($user->type == 1)
+
+    &lt;li&gt;{{ $user->name }}&lt;/li&gt;
+
+    @break($user->number == 5)
+@endforeach</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@continue</code></td>
+									<td>Continue for loop</td>
+								</tr>
+								<tr>
+									<td><code>@include(file)</code></td>
+									<td>Includes another template</td>
+									<td><pre><code>@include('shared.errors')</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@include(file, ['var' => $val,...])</code></td>
+									<td>Includes a template, passing new variables.</td>
+									<td><pre><code>@include('view.name', <span class="s1">['some' => 'data']</span>)</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@each('file',$list,'item')</code></td>
+									<td>Renders a template on a collection</td>
+									<td><pre><code>@each('view.name', $jobs, 'job')</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@each('file',$list,'item','empty')</code></td>
+									<td>Renders a template on a collection or a different template if collection is empty.</td>
+									<td><pre><code>@each('view.name', $jobs, 'job', <span class="s1">'view.empty'</span>)</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@yield('section')</code></td>
+									<td>Yields content of a section.</td>
+									<td><pre><code>@hasSection('title')
+    @yield('title') - App Name
+@else
+    App Name
+@endif</code></pre></td>
+								</tr>
+								<tr>
+									<td><code>@push</code></td>
+									<td rowspan="3">Allows you to push to named stacks which can be rendered somewhere else in another view or layout</td>
+									<td rowspan="3"><pre><code>@push('scripts')
+ &lt;script src="/example.js"&gt;&lt;/script&gt;
+@endpush</code></pre>
+									<pre><code>&lt;head&gt;
+    <span class="token string">&lt;!-- Head Contents --&gt;</span>
+
+    @stack('scripts')
+&lt;/head&gt;</code></pre>
+									</td>
+								</tr>
+								<tr>
+									<td><code>@endpush</code></td>
+								</tr>
+								<tr>
+									<td><code>@stack</code></td>
+								</tr>
+								<tr>
+									<td><code>@lang('message')</code></td>
+									<td>Outputs message from translation table</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@choice('message', $count)</code></td>
+									<td>Outputs message with language pluralization</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@section('name')</code></td>
+									<td>Starts a section</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@stop</code></td>
+									<td>Ends section</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@show</code></td>
+									<td>Ends section and yields its content</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@endsection</code></td>
+									<td>Ends section</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@append</code></td>
+									<td>Ends section and appends it to existing of section of same name</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><code>@overwrite</code></td>
+									<td>Ends section, overwriting previous section of same name</td>
+									<td></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
+					
 					
 				</div>
 			</div>
@@ -364,6 +595,7 @@ php artisan key:generate</code></pre>
 						</li>
 						<li><a href="#blade">Blade Template Engine</a>
 							<ul class="nav">
+								<li><a href="#blade-templating">Templating</a></li>
 								<li><a href="#blade-templating-commands">Templating Commands</a></li>
 								
 							</ul>
