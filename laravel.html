@@ -80,7 +80,7 @@ sudo nano /etc/paths
 					
 					<b class="mb-5">Make directories writable:</b>
 					<pre><code>cd website1
-sudo chmod -R 777 storage/</code></pre>
+sudo chmod -R 777 storage/ bootstrap/</code></pre>
 					
 					<div class="bs-callout bs-callout-danger">
 						<h4>Installation of Git Repository</h4>
@@ -88,7 +88,7 @@ sudo chmod -R 777 storage/</code></pre>
 						<pre><code>git clone https://github.com/gdbhosale/lamgmt1.git
 composer install
 php artisan key:generate</code></pre>
-						<p>Use last command if it gives error like: <code>This gives error: No supported encrypter found. The cipher and / or key length are invalid.</code></p>
+						<p>Use last command if it gives error like: <code>No supported encrypter found. The cipher and / or key length are invalid.</code></p>
 					</div>
 					
 					<b class="mb-5">Other Useful Commands:</b>
@@ -578,6 +578,103 @@ php artisan key:generate</code></pre>
 					</div>
 					
 					
+					<h2 id="crud-basic">CRUD</h2>
+
+					
+
+					<h1 id="mongodb" class="page-header">MongoDB in Laravel</h1>
+					<h2 id="mongodb-installation">Installation</h2>
+					<b class="mb-5">Install MongoDB on Mac OSX:</b>
+					<pre><code>brew update
+brew install mongodb
+sudo mkdir -p /data/db
+sudo chmod -R 777 /data/db/</code></pre>
+
+					<b class="mb-5">Install MongoDB Extension/Drivers for PHP for Mac OSX (<a href="http://php.net/manual/en/mongodb.installation.homebrew.php">Help</a>):</b>
+					<pre><code>brew install homebrew/php/php55-mongodb</code></pre>
+					<b class="mb-5">Install MongoDB Extension/Drivers for PHP for Ubuntu (<a href="http://php.net/manual/en/mongodb.installation.pecl.php">Help</a>):</b>
+					<pre><code>sudo pecl install mongodb</code></pre>
+
+					<b class="mb-5">Add to PATH:</b>
+					<pre><code>export PATH=/usr/local/opt/php55-mongodb/:$PATH
+cp /usr/local/opt/php55-mongodb/mongodb.so /Applications/MAMP/bin/php/php5.5.14/lib/php/extensions/no-debug-non-zts-20121212</code></pre>
+
+					<b class="mb-5">Add to php.ini:</b>
+					<pre><code>sudo nano  /etc/php5/apache2/php.ini
+
+# Add this line in php.ini
+extension=mongodb.so</code></pre>
+					<p>Test your installation by calling <code>phpinfo();</code>. Make sure <code>mongodb</code> is visible there.</p>
+					
+					
+
+					<h2 id="mongodb-start">Start MongoDB Server</h2>
+					<p>To start mongodb server command is:</p>
+					<pre><code>mongod</code></pre>
+					<p>This will start MongoDB server.</p>
+
+					<b class="mb-5">MongoDB command-lines; Create root user:</b>
+					<p>You can also access MongoDB through command-lines using command <code>mongo</code> as below.</p>
+
+					<pre><code>mongo
+use admin
+db.createUser({user:"root",pwd:"root",roles:["root"]})</code></pre>
+
+					<h2 id="mongodb-laravel-install">MongoDB integration in Laravel <small>using library: <a target="_blank" href="https://github.com/jenssegers/laravel-mongodb"><code>jenssegers/mongodb</code></a></small></h2>
+
+					<b class="mb-5">Install library using composer:</b>
+					<pre><code>composer require jenssegers/mongodb</code></pre>
+
+					<b class="mb-5">edit <code>config/app.php</code>:</b>
+					<pre><code>'providers' =>
+	Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
+'aliases' =>
+	'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,</code></pre>
+
+					<b class="mb-5">Configure Database in <code>config/database.php</code>. Add new connection:</b>
+
+					<code><pre>    'mongodb' => [
+        'driver'   => 'mongodb',
+        'host'     => env('DB_HOST', 'localhost'),
+        'port'     => "27017",
+        'database' => 'admin',
+        'username' => 'root',
+        'password' => 'root',
+        'options' => [
+            'database' => 'admin' // sets the authentication database required by mongo 3
+        ]
+    ],</pre></code>
+
+    				<h2 id="mongodb-models">Using MongoDB</h2>
+    				<p>Lets start using MongoDB models <code>Moloquent</code>:</p>
+    				<pre><code>php artisan make:model Book</code></pre>
+
+    				<b>Book.php</b>
+					<pre><code>namespace App;
+use Moloquent;
+
+class Book extends Moloquent {
+    protected $collection = 'book_collection';
+    protected $connection = 'mongodb';
+}</code></pre>
+
+					<b>Access model in <code>HomeController.php</code></b>
+					<pre><code>use App\Book;
+
+public function index() {
+    
+    // $book = new Book;
+    // $book->name = 'LOTR';
+    // $book->save();
+    
+    $books = Book::all();
+    
+    return View('home', compact('books'));
+}</code></pre>
+					
+					
+					
+					
 				</div>
 			</div>
 			
@@ -597,7 +694,22 @@ php artisan key:generate</code></pre>
 							<ul class="nav">
 								<li><a href="#blade-templating">Templating</a></li>
 								<li><a href="#blade-templating-commands">Templating Commands</a></li>
-								
+							</ul>
+						</li>
+						<li><a href="#crud-basic">Basic CRUD</a>
+							<ul class="nav">
+								<li><a href="#crud-database-migration">Database Migration</a></li>
+								<li><a href="#crud-models">Creating Models</a></li>
+								<li><a href="#crud-routing-controller">Routing & Controller</a></li>
+								<li><a href="#crud-functions">CRUD</a></li>
+							</ul>
+						</li>
+						<li><a href="#mongodb">MongoDB in Laravel</a>
+							<ul class="nav">
+								<li><a href="#mongodb-installation">Installation</a></li>
+								<li><a href="#mongodb-start">Start MongoDB Server</a></li>
+								<li><a href="#mongodb-laravel-install">MongoDB integration in Laravel</a></li>
+								<li><a href="#mongodb-models">Using MongoDB</a></li>
 							</ul>
 						</li>
 					</ul> <a class="back-to-top" href="#top"> Back to top </a> <a href="#" class="bs-docs-theme-toggle" role="button"> Preview theme </a> </nav>
@@ -619,6 +731,134 @@ php artisan key:generate</code></pre>
 	<script src=js/bootstrap.min.js></script>
 	<script src=js/docs.min.js></script>
 	<script src=js/ie10-viewport-bug-workaround.js></script>
+<!--
+
+Gravatar
+https://github.com/creativeorange/gravatar
+
+Process SCSS with laravel (https://laravel.com/docs/5.2/elixir) Alt: https://www.dev-metal.com/how-to-use-sass-in-laravel/
+# Install Node.js
+# For Mac install it from https://nodejs.org/en/download/
+# For Ubuntu
+sudo apt-get install nodejs
+sudo apt-get install npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+node -v
+npm -v
+sudo npm install --global gulp
+npm install
+
+# to run gulp once
+gulp
+
+# to run gulp in production mode
+gulp --production
+
+# Install Forever
+sudo npm install forever -g
+
+To make gulp run in background
+forever start node_modules/gulp/bin/gulp.js watch
+
+forever list
+forever stopall
+
+====================================================================================
+
+Use gulpfile.js to add less/sass/scss into project.
+elixir(function(mix) {
+    mix.less('app.less');
+    mix.less('admin-lte/AdminLTE.less');
+    mix.less('bootstrap/bootstrap.less');
+    mix.sass('mystyles.scss');
+});
+
+
+====================================================================================
+https://github.com/jenssegers/laravel-mongodb
+Getting started with MongoDB on Laravel
+# Install MongoDB on Mac OSX
+brew update
+brew install mongodb
+sudo mkdir -p /data/db
+sudo chmod -R 777 /data/db/
+# ==== Done with MongoDB. Now MongoDB for PHP Extension Installation
+# for MacOSX - http://php.net/manual/en/mongodb.installation.homebrew.php
+brew install homebrew/php/php55-mongodb
+# for Linux - http://php.net/manual/en/mongodb.installation.pecl.php
+sudo pecl install mongodb
+
+
+sudo nano  /etc/php5/apache2/php.ini
+extension=mongodb.so
+
+# for MacOSX - copying mongodb.so
+export PATH=/usr/local/opt/php55-mongodb/:$PATH
+cp /usr/local/opt/php55-mongodb/mongodb.so /Applications/MAMP/bin/php/php5.5.14/lib/php/extensions/no-debug-non-zts-20121212
+
+# test in phpinfo(); for mongodb
+
+# Start MongoDB
+mongod
+
+# Open another terminal
+mongo
+use admin
+db.createUser({user:"root",pwd:"root",roles:["root"]})
+
+
+# In Laravel - Create app with auth
+# Install jenssegers library with composer
+composer require jenssegers/mongodb
+
+# config/app.php
+'providers' =>
+	Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
+'aliases' =>
+	'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
+
+# config/database.php
+connections=>
+		'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('DB_HOST', 'localhost'),
+            'port'     => "27017",
+            'database' => 'admin',
+            'username' => 'root',
+            'password' => 'root',
+            'options' => [
+                'database' => 'admin' // sets the authentication database required by mongo 3
+            ]
+        ],
+
+php artisan make:model Book
+
+# Book.php
+namespace App;
+use Moloquent;
+
+class Book extends Moloquent {
+    protected $collection = 'book_collection';
+    protected $connection = 'mongodb';
+}
+
+
+# HomeController.php
+use App\Book;
+
+	public function index() {
+        
+        // $book = new Book;
+        // $book->name = 'LOTR';
+        // $book->save();
+        
+        $books = Book::all();
+        
+        return View('home', compact('books'));
+    }
+
+
+-->
 </body>
 
 </html>
