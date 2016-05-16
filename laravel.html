@@ -309,31 +309,31 @@ php artisan key:generate</code></pre>
         <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span></span>App Name <span class="token operator">-</span> @<span class="token keyword">yield</span><span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">)</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span></span>
     <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span></span>
     <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span></span>
-        @<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
+        <span class="token blade">@section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
             This is the master sidebar<span class="token punctuation">.</span>
-        @show
+        <span class="token blade">@show</span>
 
         <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span></span>
-            @<span class="token keyword">yield</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
+            <span class="token blade">@yield</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
         <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></span>
     <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span></span>
 <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span></span></code></pre>
 					</figure>
 					
 					<h4>Extending A Layout <small>resources/views/child.blade.php</small></h4>
-					<figure class="highlight"><pre><code>@<span class="token keyword">extends</span><span class="token punctuation">(</span><span class="token string">'layouts.master'</span><span class="token punctuation">)</span>
+					<figure class="highlight"><pre><code><span class="token blade">@extends</span><span class="token punctuation">(</span><span class="token string">'layouts.master'</span><span class="token punctuation">)</span>
 
-@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'Page Title'</span><span class="token punctuation">)</span>
+<span class="token blade">@section</span><span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'Page Title'</span><span class="token punctuation">)</span>
 
-@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
-    @<span class="token keyword">parent</span>
+<span class="token blade">@section</span><span class="token punctuation">(</span><span class="token string">'sidebar'</span><span class="token punctuation">)</span>
+    <span class="token blade">@parent</span>
 
     <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span></span>This is appended to the master sidebar<span class="token punctuation">.</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></span>
-@endsection
+<span class="token blade">@endsection</span>
 
-@<span class="token function">section</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
+<span class="token blade">@section</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span>
     <span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span></span>This is my body content<span class="token punctuation">.</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></span>
-@endsection</code></pre>
+<span class="token blade">@endsection</span></code></pre>
 					</figure>
 					
 					<h4>Load view using routes</h4>
@@ -677,14 +677,243 @@ DB_PASSWORD=root</code></pre>
     {
         return [
             <span class="s1">'title' => 'required',
-            'author' => 'required'
+            'author' => 'required',
             'price' => 'required'</span>
         ];
     }</code></pre>
 					
 					<h3 id="crud-methods">CRUD Methods</h3>
 					
+					
+					<h4>1. Record Listing</h4>
+					<p>Link <code>Book</code> Model in <code>BookController</code> (Before class defination):</p>
+					<pre><code>use App\Book;</code></pre>
+					<p>Edit index method in <code>BookController</code> as below:</p>
+					<pre><code>    public function index() {
+        $allBooks = Book::all(); <span class="token comments">// Selects all Books inside table.</span>
+        return View('<span class="s">books.bookList</span>', compact('allBooks'));
+    }</code></pre>
+					
+					<p>Lets create a view file: <code>resources/views/books/bookList.blade.php</code>. Need to create <code>books</code> folder.</p>
+					<figure class="highlight"><pre><code class="long-width"><span class="token blade">@extends</span>('layouts.app')
+<span class="token blade">@section</span>('content')
+&lt;div <span class="na">class=</span><span class="s">"container"</span>&gt;
+    &lt;a <span class="na">class=</span><span class="s">"btn btn-primary btn-sm pull-right"</span> <span class="na">href=</span><span class="s">"{{ route('book.create') }}"</span>&gt;Add New Book&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;div <span class="na">class=</span><span class="s">"list-group"</span>&gt;
+    <span class="token blade">@foreach</span>( $allBooks as $book )
+        &lt;div <span class="na">class=</span><span class="s">"list-group-item"</span>&gt;
+            {!! Html::linkRoute('book.show', $book-&gt;title, array($book-&gt;id)) !!} ({{$book-&gt;author }})
+            &lt;span <span class="na">class=</span><span class="s">"pull-right"</span>&gt;
+                {!! Html::linkRoute('book.edit', 'Edit', array($book-&gt;id), ['class'=&gt;'btn btn-success btn-xs', 'style'=&gt;'display:inline']) !!}
+                {!! Form::open(['route' =&gt; ['book.destroy', $book-&gt;id], 'method' =&gt; 'delete', 'style'=&gt;'display:inline']) !!}
+                &lt;input <span class="na">class=</span><span class="s">"btn btn-danger btn-xs"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Delete"</span> /&gt;
+                {!! Form::close() !!}
+            &lt;/span&gt;
+        &lt;/div&gt;
+    <span class="token blade">@endforeach</span>
+    &lt;/div&gt;
+&lt;/div&gt;
+<span class="token blade">@endsection</span></code></pre></figure>
+					
+					<p>This will create a view without data. Later on it will look like below: </p>
+					<center><img src="images/laravel-crud-methods-listing.png" alt="Laravel CRUD - Record Listing" class="small border1"></center>
+					<br>
+					
+					<h4>2. Create Record</h4>
+					<p>Add <code>PublishBookRequest</code> in <code>BookController</code>:</p>
+					<pre><code>use App\Http\Requests\PublishBookRequest;</code></pre>
+					<p>Edit create & store methods in <code>BookController</code> as below:</p>
+					<pre><code>
+    public function create()
+    {
+        return view('books.addBook');
+    }
+	
+    public function store(PublishBookRequest $request)
+    {
+        <span class="token comments">// Insert Query</span>
+        $book = new Book;
+        $book->title= $request['title'];
+        $book->description= $request['description'];
+        $book->author= $request['author'];
+        $book->price= $request['price'];
+        $book->save();
 
+        <span class="token comments">// Send control to index() method where it'll redirect to Book-List</span>
+        return redirect()->route('book.index');
+    }</code></pre><br>
+					
+					<b class="mb-5">Form and HTML Libraries:</b>
+					<p>Before creating Forms in Add Book, we need to add few Libraries like <code>Form</code> and <code>HTML</code>.<br> It is included in package <code>laravelcollective/html</code>. Use command:</p>
+					<pre><code>composer require laravelcollective/html</code></pre>
+					
+					<p>Now open and edit <code>config/app.php</code> as below.</p>
+					<pre><code>'providers' => [
+    ...
+    Collective\Html\HtmlServiceProvider::class,
+],
+'aliases' => [
+    ...
+    'Form' => Collective\Html\FormFacade::class,
+    'Html' => Collective\Html\HtmlFacade::class
+],</code></pre>
+					<b class="mb-5">Create add view file <code>resources/views/books/addBook.blade.php</code>:</b>
+					<figure class="highlight"><pre><code class="long-width"><span class="token blade">@extends</span>('layouts.app')
+<span class="token blade">@section</span>('content')
+&lt;div <span class="na">class=</span><span class="s">"container"</span>&gt;
+    &lt;div <span class="na">class=</span><span class="s">"row"</span>&gt;
+        &lt;div <span class="na">class=</span><span class="s">"col-md-8 col-md-offset-2"</span>&gt;
+            &lt;h1&gt;Add New Book&lt;/h1&gt;
+            {!! Form::open(['action' => 'BookController@store']) !!}
+				
+                &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                    {!! Form::label('title', 'Title :') !!}
+                    {!! Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Enter Title']) !!}
+                &lt;/div&gt;
+
+                &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                    {!! Form::label('description', 'Description :') !!}
+                    {!! Form::textarea('description', null,  ['class'=>'form-control', 'placeholder'=>'Description']) !!}
+                &lt;/div&gt;
+
+                &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                    {!! Form::label('author', 'Author name :') !!}
+                    {!! Form::text('author', null,  ['class'=>'form-control', 'placeholder'=>'Author Name']) !!}
+                &lt;/div&gt;
+				
+                &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                    {!! Form::label('price', 'Price :') !!}
+                    {!! Form::text('price', null,  ['class'=>'form-control', 'placeholder'=>'Price']) !!}
+                &lt;/div&gt;&lt;br&gt;
+                
+                &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                    {!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!} &lt;a <span class="na">class=</span><span class="s">"btn btn-default pull-right"</span> <span class="na">href=</span><span class="s">"{{ url('/book') }}"</span>&gt;Back to Home&lt;/a&gt;
+                &lt;/div&gt;
+            {!! Form::close() !!}
+            <span class="token blade">@if</span>($errors->any())
+                &lt;ul <span class="na">class=</span><span class="s">"alert alert-danger"</span>&gt;
+                    <span class="token blade">@foreach</span>($errors->all() as $error)
+                        &lt;li>{{ $error }}&lt;/li&gt;
+                    <span class="token blade">@endforeach</span>
+                &lt;/ul&gt;
+            <span class="token blade">@endif</span>
+        &lt;/div&gt;&lt;br&gt;
+    &lt;/div&gt;&lt;br&gt;
+&lt;/div&gt;&lt;br&gt;
+<span class="token blade">@endsection</span></code></pre></figure>
+					
+					<p class="text-center">This is How form will look.</p>
+					<center><img src="images/laravel-crud-methods-create.png" alt="Laravel CRUD - Create Add Form" class="small border1"></center>
+					
+					
+					<h4>3. Display Record:</h4>
+					<p>Edit show method in <code>BookController</code> as below:</p>
+					<pre><code>    public function show($id)
+    {
+        $book = Book::find($id);
+        return view('books.showBook')->with('book',$book);
+    }</code></pre>
+					<b class="mb-5">Create show view file <code>resources/views/books/showBook.blade.php</code>:</b>
+					<pre><code class="long-width"><span class="token blade">@extends</span>('layouts.app')
+<span class="token blade">@section</span>('content')
+&lt;div <span class="na">class=</span><span class="s">"container"</span>&gt;
+    &lt;div <span class="na">class=</span><span class="s">"row"</span>&gt;
+        &lt;div <span class="na">class=</span><span class="s">"row col-xs-8 col-xs-offset-2 img-rounded text-center"</span> <span class="na">style=</span><span class="s">"background-color:#eee;"</span>&gt;
+            &lt;div&gt;&lt;h2&gt;{{ $book->title }}&lt;/h2&gt;&lt;/div&gt;&lt;br&gt;
+            &lt;div&gt;{{ $book->description }}&lt;/div&gt;&lt;br&gt;
+            &lt;div <span class="na">class=</span><span class="s">"pull-left"</span>>&lt;b&gt;Cost:&lt;/b&gt; ${{ $book->price }}&lt;/div&gt;
+            &lt;div <span class="na">class=</span><span class="s">"blockquote-reverse"</span>>Published by - {{ $book->author }}&lt;/div&gt;
+            &lt;br&gt;&lt;a <span class="na">class=</span><span class="s">"btn btn-default"</span> <span class="na">href=</span><span class="s">"{{ url('/book') }}"</span>&gt;Back to Home&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+        &lt;/div&gt;&lt;br&gt;
+    &lt;/div&gt;&lt;br&gt;
+&lt;/div&gt;&lt;br&gt;
+<span class="token blade">@endsection</span></code></pre>
+
+					<br><center><img src="images/laravel-crud-methods-show.png" alt="Laravel CRUD - Show Record" class="small border1"></center><br>
+
+					<h4>4. Update Record:</h4>
+					<p>Edit edit method in <code>BookController</code> as below:</p>
+					<pre><code>    public function edit($id)
+    {
+        $book = Book::find($id);
+        return view('books.editBook')->with('book',$book);
+    }
+	
+	public function update(Request $request, $id)
+    {
+        $book = Book::find($id);
+
+        //Update Query
+        $book->title = $request['title'];
+        $book->description = $request['description'];
+        $book->author = $request['author'];
+		$book->price = $request['price'];
+        $book->save();
+
+        //Redirecting to index() method of BookController class
+        return redirect()->route('book.index');
+    }</code></pre>
+					<b class="mb-5">Create edit view file <code>resources/views/books/editBook.blade.php</code>:</b>
+					<figure class="highlight"><pre><code class="long-width"><span class="token blade">@extends</span>('layouts.app')
+<span class="token blade">@section</span>('content')
+&lt;div <span class="na">class=</span><span class="s">"container"</span>&gt;
+    &lt;div <span class="na">class=</span><span class="s">"row"</span>&gt;
+        &lt;div <span class="na">class=</span><span class="s">"col-md-8 col-md-offset-2"</span>&gt;
+            &lt;h1&gt;Edit {{ $book->title }}&lt;/h1&gt;
+            {!! Form::model($book, ['route' => ['book.update', $book->id ], 'method'=>'PUT']) !!}
+            &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                {!! Form::label('title', 'Title :') !!}
+                {!! Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Enter Title']) !!}
+            &lt;/div&gt;
+
+            &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                {!! Form::label('description', 'Description :') !!}
+                {!! Form::textarea('description', null,  ['class'=>'form-control', 'placeholder'=>'Description']) !!}
+            &lt;/div&gt;
+
+            &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                {!! Form::label('author', 'Author name :') !!}
+                {!! Form::text('author', null,  ['class'=>'form-control', 'placeholder'=>'Author Name']) !!}
+            &lt;/div&gt;
+
+            &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                {!! Form::label('price', 'Price :') !!}
+                {!! Form::text('price', null,  ['class'=>'form-control', 'placeholder'=>'Price']) !!}
+            &lt;/div&gt;&lt;br&gt;
+
+            &lt;div <span class="na">class=</span><span class="s">"form-group"</span>&gt;
+                {!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} &lt;a <span class="na">class=</span><span class="s">"btn btn-default pull-right"</span> <span class="na">href=</span><span class="s">"{{ url('/book') }}"</span>&gt;Back to Home&lt;/a&gt;
+
+            {!! Form::close() !!}
+            @if($errors->any())
+                &lt;ul <span class="na">class=</span><span class="s">"alert alert-danger"</span>&gt;
+                    <span class="token blade">@foreach</span>($errors->all() as $error)
+                        &lt;li>{{ $error }}&lt;/li&gt;
+                    <span class="token blade">@endforeach</span>
+                &lt;/ul&gt;
+            @endif
+        &lt;/div&gt;&lt;br&gt;
+    &lt;/div&gt;&lt;br&gt;
+&lt;/div&gt;&lt;br&gt;
+<span class="token blade">@endsection</span></code></pre></figure>
+
+					<br><center><img src="images/laravel-crud-methods-update.png" alt="Laravel CRUD - Edit Record" class="small border1"></center><br>
+					
+					<h4>5. Delete Record:</h4>
+					<p>Edit destroy method in <code>BookController</code> as below:</p>
+					<pre><code>    public function destroy($id)
+    {
+        Book::find($id)->delete();
+
+        <span class="token comments">// Redirecting to index() method for Listing</span>
+        return redirect()->route('book.index');
+    }</code></pre>
+					<p>We have already created the destroy form in listing: </p>
+					<pre><code class="long-width">{!! Form::open(['route' =&gt; ['book.destroy', $book-&gt;id], 'method' =&gt; 'delete', 'style'=&gt;'display:inline']) !!}
+	&lt;input <span class="na">class=</span><span class="s">"btn btn-danger btn-xs"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Delete"</span> /&gt;
+{!! Form::close() !!}</code></pre>
+					
 					<h1 id="mongodb" class="page-header">MongoDB in Laravel</h1>
 					<h3 id="mongodb-installation">Installation</h3>
 					<b class="mb-5">Install MongoDB on Mac OSX:</b>
