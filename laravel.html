@@ -59,7 +59,7 @@
 			<div class="col-md-9" role="main">
 				<div class="bs-docs-section">
 					<h1 id="getting-started" class="page-header">Getting Started</h1>
-					<h2 id="installation">Installation</h2>
+					<h3 id="installation">Installation</h3>
 					
 					<b class="mb-5">Install Composer:</b>
 					<pre><code>sudo apt-get update
@@ -97,7 +97,7 @@ php artisan key:generate</code></pre>
 					<p>Check Laravel Installer version</p>
 					<pre><code>laravel --version</code></pre>
 					
-					<h2 id="artisan-commands">Artisan Commands</h2>
+					<h3 id="artisan-commands">Artisan Commands</h3>
 					<p>Artisan is command-line interface included in Laravel from Symfony Console component.</p>
 					<b class="mb-5">List of all Artisan commands:</b>
 					<pre><code>php artisan list</code></pre>
@@ -294,7 +294,7 @@ php artisan key:generate</code></pre>
 					#TODO: Add more commands here after testing
 					
 					<h1 id="blade" class="page-header">Blade Template Engine</h1>
-					<h2 id="blade-templating">Templating</h2>
+					<h3 id="blade-templating">Templating</h3>
 					<b class="mb-5">Why Blade ?</b>
 					<ul>
 						<li>Template Inheritance</li>
@@ -345,7 +345,7 @@ php artisan key:generate</code></pre>
 					
 					
 					
-					<h2 id="blade-templating-commands">Templating Commands</h2>
+					<h3 id="blade-templating-commands">Templating Commands</h3>
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped js-options-table">
 							<thead>
@@ -578,12 +578,115 @@ php artisan key:generate</code></pre>
 					</div>
 					
 					
-					<h2 id="crud-basic">CRUD</h2>
+					<h1 id="crud-basic" class="page-header">Basic CRUD</h1>
+					
+					<h3 id="crud-database-migration">Database Migration</h3>
+					<p>Once we create the basic project in Laravel, We need authetication for CRUD.</p>
+					<pre><code>php artisan make:auth</code></pre>
+					<p>Now create a database and link it in <code>.env</code></p>
+					<pre><code>DB_DATABASE=crud1
+DB_USERNAME=root
+DB_PASSWORD=root</code></pre>
+					<p>After linking databse we will use migrate commands to create tables automatically.</p>
+					<pre><code>php artisan migrate</code></pre>
+					
+					<h3 id="crud-routing-controller">Routing & Controller</h3>
+					<b class="mb-5">Create Controller as Resource:</b>
+					<p>Let's create the controller for our CRUD: <code>BookController</code>. Which will do Creation, Reading, Updation and Deletion of Books.</p>
+					<pre><code>php artisan make:controller BookController --resource</code></pre>
+					<b class="mb-5">Create a Route in <code>app/Http/routes.php</code>:</b>
+					<p>Now we need to create Routing for the BookController as a resource. Add below line at end of file.</p>
+					<pre><code>Route::resource('book', 'BookController');</code></pre>
+					<p>To validate that BookController will work correctly, use following command to get all routes of application.</p>
+					<pre><code class="long-width">$ <span class="s1">php artisan route:list</span>
++--------+-----------+-------------------------+--------------+-----------------------------------------------------------------+------------+
+| Domain | Method    | URI                     | Name         | Action                                                          | Middleware |
++--------+-----------+-------------------------+--------------+-----------------------------------------------------------------+------------+
+|        | GET|HEAD  | /                       |              | Closure                                                         | web        |
+|        | GET|HEAD  | book                    | book.index   | App\Http\Controllers\BookController@index                       | web        |
+|        | POST      | book                    | book.store   | App\Http\Controllers\BookController@store                       | web        |
+|        | GET|HEAD  | book/create             | book.create  | App\Http\Controllers\BookController@create                      | web        |
+|        | GET|HEAD  | book/{book}             | book.show    | App\Http\Controllers\BookController@show                        | web        |
+|        | DELETE    | book/{book}             | book.destroy | App\Http\Controllers\BookController@destroy                     | web        |
+|        | PUT|PATCH | book/{book}             | book.update  | App\Http\Controllers\BookController@update                      | web        |
+|        | GET|HEAD  | book/{book}/edit        | book.edit    | App\Http\Controllers\BookController@edit                        | web        |
+|        | GET|HEAD  | home                    |              | App\Http\Controllers\HomeController@index                       | web,auth   |
+|        | GET|HEAD  | login                   |              | App\Http\Controllers\Auth\AuthController@showLoginForm          | web,guest  |
+|        | POST      | login                   |              | App\Http\Controllers\Auth\AuthController@login                  | web,guest  |
+|        | GET|HEAD  | logout                  |              | App\Http\Controllers\Auth\AuthController@logout                 | web        |
+|        | POST      | password/email          |              | App\Http\Controllers\Auth\PasswordController@sendResetLinkEmail | web,guest  |
+|        | POST      | password/reset          |              | App\Http\Controllers\Auth\PasswordController@reset              | web,guest  |
+|        | GET|HEAD  | password/reset/{token?} |              | App\Http\Controllers\Auth\PasswordController@showResetForm      | web,guest  |
+|        | GET|HEAD  | register                |              | App\Http\Controllers\Auth\AuthController@showRegistrationForm   | web,guest  |
+|        | POST      | register                |              | App\Http\Controllers\Auth\AuthController@register               | web,guest  |
++--------+-----------+-------------------------+--------------+-----------------------------------------------------------------+------------+</code></pre>
+					<p>After getting such output for BookController you might have understood that routes assumes the default CRUD methods.</p>
+					<p>Let's edit the <code>app\Http\Controllers\BookController.php</code> and view/edit the respective methods.</p>
+					<p>To take this section <code>Book</code> under authentication (Optional), We need to add authentication in constructor like below:</p>
+					<pre><code>    public function __construct()
+    {
+        $this->middleware('auth');
+    }</code></pre>
+					<p>After doing this you can see change in routes. All Book Methods get <code>auth</code> as Middleware.</p>
+					
+					<h3 id="crud-models">Creating Models</h3>
+					<p>Let's move ahead and create model using following command:</p>
+					<pre><code>php artisan make:model -m Book</code></pre>
+					<p>Extra argument <code>-m</code> will generate migration <code>database/migrations/2016_05_16_114615_create_books_table.php</code></p>
+					<p>To explicitly create migration, You can use: <code>php artisan make:migration create_books_table</code></p>
+					
+					<br>
+					<b class="mb-5">Edit Model:</b>
+					<pre><code>class Book extends Model
+{
+    protected $table = 'books';
+    protected $fillable = [
+        'title',
+        'description',
+        'author',
+        'price'
+    ];
+}
+</code></pre>
+					<p>Edit migration file <code>database/migrations/2016_05_16_114615_create_books_table.php</code> to create fields in table.</p>
+					<pre><code>    public function up()
+    {
+        Schema::create('books', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('author');
+            $table->integer('price');
+            $table->timestamps();
+        });
+    }</code></pre>
+					<p>Now generate the DB tables automatically.</p>
+					<pre><code>php artisan migrate</code></pre>
+					<br>
+					
+					<b class="mb-5">Data Validation (Optional):</b>
+					<p>Now we need validation rules for data. So we create Request to do so.</p>
+					<pre><code>php artisan make:request PublishBookRequest</code></pre>
+					<p>This will generate <code>app/Http/Requests/PublishBookRequest.php</code>. Edit it as below:</p>
+					<pre><code>    public function authorize()
+    {
+        return <span class="s1">true;</span>
+    }
 
+    public function rules()
+    {
+        return [
+            <span class="s1">'title' => 'required',
+            'author' => 'required'
+            'price' => 'required'</span>
+        ];
+    }</code></pre>
+					
+					<h3 id="crud-methods">CRUD Methods</h3>
 					
 
 					<h1 id="mongodb" class="page-header">MongoDB in Laravel</h1>
-					<h2 id="mongodb-installation">Installation</h2>
+					<h3 id="mongodb-installation">Installation</h3>
 					<b class="mb-5">Install MongoDB on Mac OSX:</b>
 					<pre><code>brew update
 brew install mongodb
@@ -608,7 +711,7 @@ extension=mongodb.so</code></pre>
 					
 					
 
-					<h2 id="mongodb-start">Start MongoDB Server</h2>
+					<h3 id="mongodb-start">Start MongoDB Server</h3>
 					<p>To start mongodb server command is:</p>
 					<pre><code>mongod</code></pre>
 					<p>This will start MongoDB server.</p>
@@ -620,7 +723,7 @@ extension=mongodb.so</code></pre>
 use admin
 db.createUser({user:"root",pwd:"root",roles:["root"]})</code></pre>
 
-					<h2 id="mongodb-laravel-install">MongoDB integration in Laravel <small>using library: <a target="_blank" href="https://github.com/jenssegers/laravel-mongodb"><code>jenssegers/mongodb</code></a></small></h2>
+					<h3 id="mongodb-laravel-install">MongoDB integration in Laravel <small>using library: <a target="_blank" href="https://github.com/jenssegers/laravel-mongodb"><code>jenssegers/mongodb</code></a></small></h3>
 
 					<b class="mb-5">Install library using composer:</b>
 					<pre><code>composer require jenssegers/mongodb</code></pre>
@@ -645,7 +748,7 @@ db.createUser({user:"root",pwd:"root",roles:["root"]})</code></pre>
         ]
     ],</pre></code>
 
-    				<h2 id="mongodb-models">Using MongoDB</h2>
+    				<h3 id="mongodb-models">Using MongoDB</h3>
     				<p>Lets start using MongoDB models <code>Moloquent</code>:</p>
     				<pre><code>php artisan make:model Book</code></pre>
 
@@ -699,9 +802,9 @@ public function index() {
 						<li><a href="#crud-basic">Basic CRUD</a>
 							<ul class="nav">
 								<li><a href="#crud-database-migration">Database Migration</a></li>
-								<li><a href="#crud-models">Creating Models</a></li>
 								<li><a href="#crud-routing-controller">Routing & Controller</a></li>
-								<li><a href="#crud-functions">CRUD</a></li>
+								<li><a href="#crud-models">Creating Models</a></li>
+								<li><a href="#crud-methods">CRUD Methods</a></li>
 							</ul>
 						</li>
 						<li><a href="#mongodb">MongoDB in Laravel</a>
@@ -773,89 +876,8 @@ elixir(function(mix) {
     mix.sass('mystyles.scss');
 });
 
-
 ====================================================================================
-https://github.com/jenssegers/laravel-mongodb
-Getting started with MongoDB on Laravel
-# Install MongoDB on Mac OSX
-brew update
-brew install mongodb
-sudo mkdir -p /data/db
-sudo chmod -R 777 /data/db/
-# ==== Done with MongoDB. Now MongoDB for PHP Extension Installation
-# for MacOSX - http://php.net/manual/en/mongodb.installation.homebrew.php
-brew install homebrew/php/php55-mongodb
-# for Linux - http://php.net/manual/en/mongodb.installation.pecl.php
-sudo pecl install mongodb
 
-
-sudo nano  /etc/php5/apache2/php.ini
-extension=mongodb.so
-
-# for MacOSX - copying mongodb.so
-export PATH=/usr/local/opt/php55-mongodb/:$PATH
-cp /usr/local/opt/php55-mongodb/mongodb.so /Applications/MAMP/bin/php/php5.5.14/lib/php/extensions/no-debug-non-zts-20121212
-
-# test in phpinfo(); for mongodb
-
-# Start MongoDB
-mongod
-
-# Open another terminal
-mongo
-use admin
-db.createUser({user:"root",pwd:"root",roles:["root"]})
-
-
-# In Laravel - Create app with auth
-# Install jenssegers library with composer
-composer require jenssegers/mongodb
-
-# config/app.php
-'providers' =>
-	Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
-'aliases' =>
-	'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
-
-# config/database.php
-connections=>
-		'mongodb' => [
-            'driver'   => 'mongodb',
-            'host'     => env('DB_HOST', 'localhost'),
-            'port'     => "27017",
-            'database' => 'admin',
-            'username' => 'root',
-            'password' => 'root',
-            'options' => [
-                'database' => 'admin' // sets the authentication database required by mongo 3
-            ]
-        ],
-
-php artisan make:model Book
-
-# Book.php
-namespace App;
-use Moloquent;
-
-class Book extends Moloquent {
-    protected $collection = 'book_collection';
-    protected $connection = 'mongodb';
-}
-
-
-# HomeController.php
-use App\Book;
-
-	public function index() {
-        
-        // $book = new Book;
-        // $book->name = 'LOTR';
-        // $book->save();
-        
-        $books = Book::all();
-        
-        return View('home', compact('books'));
-    }
 
 
 -->
